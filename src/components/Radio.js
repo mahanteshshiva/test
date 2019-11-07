@@ -1,34 +1,36 @@
 import React, {Component} from 'react';
-import {PropTypes} from 'prop-types';
+import {string,func} from 'prop-types';
 
 class Radio extends Component {
-	constructor() {
+    constructor() {
         super()
-		this.state = {
-			radioClick: "name"
-		};
-	}
+    }
+    static proptypes = {
+        onChange: func,
+        option: string
+    };
 
-	onChange(type) {
-		// on radio state change handler
-	}
 
-	render() {
-		return (
-  <div className='radioButtons'>
-    <div className='left'>
-      <input type='radio' />
-      <label>&nbsp;&nbsp;Sort by name</label>
-    </div>
-    <div className='right'>
-      <input type='radio' />
-      <label>&nbsp;&nbsp;Sort by age</label>
-    </div>
-  </div>
-);
 
-	}
+    render() {
+        const {option} = this.props;
+        return (
+            <div className='radioButtons' >
+                <div className='left'>
+                    <input type='radio' onChange={() => this.props.onChange('name')} checked={option === 'name'}/>
+                    <label>&nbsp;&nbsp;Sort by name</label>
+                </div>
+                <div className='right'>
+                    <input type='radio' onChange={() => this.props.onChange('birth')} checked={option === 'birth'}/>
+                    <label>&nbsp;&nbsp;Sort by age</label>
+
+                </div>
+            </div>
+        );
+
+    }
 }
+
 
 // Uncomment the snippet below
 // Radio.propTypes = {

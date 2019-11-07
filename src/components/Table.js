@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
-import {PropTypes} from 'prop-types';
+import {string} from 'prop-types';
 
+const PersonRow = ({name, birth}) => {
+	return (<tr>
+		<td>{name}</td>
+		<td>{birth}</td>
+	</tr>);
+
+}
 class Table extends Component {
+	static propTypes = {
+		parameterState: string
+	}
+
 	constructor() {
         super()
 		this.people = [
@@ -34,13 +45,26 @@ class Table extends Component {
 	}
 	compareDates(person1, person2) {
 		// complete this date comparator which enables sort by age
+		const date1 = new Date(person1.birth);
+		const date2 = new Date(person2.birth);
+		return +date1 - +date2;
 	}
 
 	compareNames(person1, person2) {
 		// complete this string comparator with enables sort by name
+		if (person1.name < person2.name) {
+			return -1;
+		} else if (person1.name > person2.name) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
+
 	render() {
+		const fn = this.props.parameterState  === 'name' ? this.compareNames : this.compareDates;
+		const rendered = this.people.sort(fn).map(person => (<PersonRow {...person} />))
 		return (
   <div className='table-div'>
     <table className='table table-striped table-bordered table-hover full-width'>
@@ -51,9 +75,7 @@ class Table extends Component {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td />
-        </tr>
+	  {rendered}
       </tbody>
     </table>
   </div>
