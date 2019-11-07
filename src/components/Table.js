@@ -10,7 +10,7 @@ const PersonRow = ({name, birth}) => {
 }
 class Table extends Component {
 	static propTypes = {
-		parameterState: string
+		sortParameter: string
 	}
 
 	constructor() {
@@ -47,7 +47,13 @@ class Table extends Component {
 		// complete this date comparator which enables sort by age
 		const date1 = new Date(person1.birth);
 		const date2 = new Date(person2.birth);
-		return +date1 - +date2;
+		if (date1 < date2) {
+			return -1;
+		} else if (date1 > date2) {
+			return +1;
+		} else {
+			return 0;
+		}
 	}
 
 	compareNames(person1, person2) {
@@ -63,8 +69,8 @@ class Table extends Component {
 
 
 	render() {
-		const fn = this.props.parameterState  === 'name' ? this.compareNames : this.compareDates;
-		const rendered = this.people.sort(fn).map(person => (<PersonRow {...person} />))
+		const fn = this.props.sortParameter  === 'name' ? this.compareNames : this.compareDates;
+		const rendered = this.people.sort(fn).map(person => (<PersonRow key={person.name} {...person} />))
 		return (
   <div className='table-div'>
     <table className='table table-striped table-bordered table-hover full-width'>
